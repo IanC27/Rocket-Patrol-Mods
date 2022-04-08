@@ -1,6 +1,4 @@
 
-console.log("Main.js");
-
 const config = {
     type: Phaser.CANVAS,
     width: 640,

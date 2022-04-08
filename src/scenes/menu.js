@@ -9,4 +9,5 @@ class Menu extends Phaser.Scene {
         txt.setOrigin(0.5, 0.5);
         this.scene.start("play");
     }
+
 }
