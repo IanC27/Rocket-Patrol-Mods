@@ -25,20 +25,31 @@ class Play extends Phaser.Scene {
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xffffff).setOrigin(0, 0);
 
         this.p1Rocket = new Rocket(this, game.config.width/2, 431, 'rocket');
-        //this.add.existing(p1Rocket);
+        this.p1Rocket.reset();
+
+        this.ship1 = new Ship(this, 300, 300, 'spaceship');
     }
 
     update() {
         this.starfield.tilePositionX -= 4;
         const movementSpeed = 4;
+        if(this.p1Rocket.isFiring){
+            this.p1Rocket.y -= 10;
+            if (this.p1Rocket.y < borderUISize*3 + borderPadding) {
+                this.p1Rocket.reset();
+            }
+        }
         if (keyLeft.isDown) {
-            this.p1Rocket.x -= movementSpeed;
+            this.p1Rocket.x -= this.p1Rocket.movementSpeed;
         }
         if (keyRight.isDown) {
-            this.p1Rocket.x += movementSpeed;       
+            this.p1Rocket.x += this.p1Rocket.movementSpeed;       
         }
         if (Phaser.Input.Keyboard.JustDown(keyF)) {
-            this.isFiring = true;
+            this.p1Rocket.isFiring = true;
         }
+
+        this.ship1.update();
     }
+    
 }
