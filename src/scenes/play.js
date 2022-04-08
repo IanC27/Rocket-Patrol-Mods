@@ -19,9 +19,12 @@ class Play extends Phaser.Scene {
         this.add.rectangle(0, 0, borderUISize, game.config.height, 0xffffff).setOrigin(0, 0);
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xffffff).setOrigin(0, 0);
 
+        this.p1Rocket = new Rocket(this, game.config.width/2, 431, 'rocket');
+        //this.add.existing(p1Rocket);
     }
 
     update() {
         this.starfield.tilePositionX -= 4;
+        this.p1Rocket.y -= 1;
     }
 }
