@@ -1,7 +1,7 @@
 // Ian Cowan
 // New Rocket Patrol
 // 4/14/22
-// 1hr
+// 2hrs
 
 const config = {
     type: Phaser.CANVAS,
@@ -18,3 +18,10 @@ let p2Controls = {};
 let highScore = 0;
 
 let game = new Phaser.Game(config);
+
+/*
+mods:
+-- Implement a simultaneous two-player mode (30)
+--
+
+*/

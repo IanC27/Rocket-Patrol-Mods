@@ -13,7 +13,7 @@ class Play extends Phaser.Scene {
 
     create() {
 
-
+        // draw scene background and UI
         this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
         this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
         //this.add.text(20, 20, "Welcome to the game")
@@ -30,7 +30,7 @@ class Play extends Phaser.Scene {
 
 
 
-
+        // controls setup
         p1Controls.keyFire = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         p1Controls.keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         p1Controls.keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
@@ -62,6 +62,7 @@ class Play extends Phaser.Scene {
             fixedWidth: 100
         }
 
+        // 1st rocket setup
         this.p1Rocket = new Rocket(this, game.config.width / 2, game.config.height - borderUISize - borderPadding - 4,
             'rocket', p1Controls).setOrigin(0.5, 0);
         scoreConfig.backgroundColor = "#FF0000";
@@ -84,6 +85,8 @@ class Play extends Phaser.Scene {
             this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding * 2,
                 this.p2Rocket.points, scoreConfig);
             this.p2Rocket.scoreText = this.scoreLeft;
+            scoreConfig.backgroundColor = '#F3B141';
+            scoreConfig.color = '#843605';
 
         }
 
