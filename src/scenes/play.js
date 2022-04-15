@@ -45,9 +45,9 @@ class Play extends Phaser.Scene {
 
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
-        this.p1Rocket = new Rocket(this, game.config.width / 3, 431,
+        this.p1Rocket = new Rocket(this, game.config.width / 2, 431,
             'rocket', p1Controls).setOrigin(0.5, 0);
-        this.p2Rocket = new Rocket(this, game.config.width * 0.66, 431,
+        this.p2Rocket = new Rocket(this, game.config.width / 2, 431,
              'rocket', p2Controls).setOrigin(0.5, 0);
 
         //animation config
@@ -94,7 +94,7 @@ class Play extends Phaser.Scene {
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.restart();
         }
-        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLeft)) {
+        if (this.gameOver && Phaser.Input.Keyboard.JustDown(p1Controls.keyLeft)) {
             this.scene.start("menu");
         }
 
