@@ -27,17 +27,19 @@ class Menu extends Phaser.Scene {
         //menu text
         this.add.text(game.config.width/2, game.config.height/2 - borderUISize*2 - borderPadding*2, 
         'ROCKET PATROL', menuConfig).setOrigin(0.5);
+        menuConfig.backgroundColor = "#FF0000";
+        menuConfig.color = "#000";
         this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding, 
         'P1: ← → arrows to move & ↑ to fire', menuConfig).setOrigin(0.5);
         menuConfig.backgroundColor = "#0000FF";
         menuConfig.color = "#00FF00"
         this.p2ControlsText = this.add.text(game.config.width/2, game.config.height/2, 
         '', menuConfig).setOrigin(0.5);
-        menuConfig.backgroundColor = "#FF0000";
+        menuConfig.backgroundColor = "#00FF00"
         menuConfig.color = "#000";
         this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 
         'Press M to toggle multiplayer mode', menuConfig).setOrigin(0.5);
-        menuConfig.backgroundColor = "#00FF00"
+
     
         this.add.text(game.config.width/2, game.config.height/2 + borderUISize*2 + borderPadding*2, 
         'Press ← for Novice or → for Expert', menuConfig).setOrigin(0.5);
@@ -62,7 +64,7 @@ class Menu extends Phaser.Scene {
             } else {
                 this.twoPlayers = true;
                 this.playerCountText.text = '2 Player Mode';
-                this.p2ControlsText.text = 'P2: Use A&D to move & W to fire';
+                this.p2ControlsText.text = 'P2: Use A & D to move & W to fire';
             }
             this.sound.play('sfx_select');
         }
@@ -81,7 +83,7 @@ class Menu extends Phaser.Scene {
             game.settings = {
                 spaceshipSpeed: 4,
                 gameTimer: 45000,
-                numPlayers: this.twoPlayers
+                multiplayer: this.twoPlayers
             }
             this.sound.play('sfx_select');
             this.scene.start('play');
