@@ -6,6 +6,7 @@ class Rocket extends Phaser.GameObjects.Sprite {
         this.movementSpeed = 2
         this.sfxRocket = scene.sound.add('sfx_rocket');
         this.controls = controls;
+        this.points = 0;
     }
 
     update(){

@@ -35,22 +35,20 @@ class Play extends Phaser.Scene {
         this.ship3 = new Ship(this, game.config.width, borderUISize * 6 + borderPadding * 4,
             'spaceship', 0, 10).setOrigin(0, 0);
 
-        p1Controls.keyFire = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LCTRL);
+        p1Controls.keyFire = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         p1Controls.keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         p1Controls.keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
-        p2Controls.keyFire = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
-        p2Controls.keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.
+        p2Controls.keyFire = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+        p2Controls.keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        p2Controls.keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
-
-
-        keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
-        keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
-        this.p1Rocket = new Rocket(this, game.config.width / 2, 431,
+        this.p1Rocket = new Rocket(this, game.config.width / 3, 431,
             'rocket', p1Controls).setOrigin(0.5, 0);
+        this.p2Rocket = new Rocket(this, game.config.width * 0.66, 431,
+             'rocket', p2Controls).setOrigin(0.5, 0);
 
         //animation config
         this.anims.create({
@@ -74,8 +72,10 @@ class Play extends Phaser.Scene {
             },
             fixedWidth: 100
         }
-        this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding * 2, this.p1Score,
-            scoreConfig);
+        this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding * 2, 
+            this.p1Rocket.points, scoreConfig);
+        this.scoreRight = this.add.text(game.config.width - borderUISize - borderPadding - scoreConfig.fixedWidth, 
+            borderUISize + borderPadding * 2, this.p2Rocket.points, scoreConfig);
 
         this.gameOver = false;
 
@@ -100,25 +100,22 @@ class Play extends Phaser.Scene {
 
         if (!this.gameOver) {
             this.starfield.tilePositionX -= 4;
-            this.p1Rocket.update()
+            this.p1Rocket.update();
+            this.p2Rocket.update();
             this.ship1.update();
             this.ship2.update();
             this.ship3.update();
         }
 
-
-        if (this.checkCollision(this.p1Rocket, this.ship3)) {
-            this.p1Rocket.reset();
-            this.shipExplode(this.ship3);
+        for (let rocket of [this.p1Rocket, this.p2Rocket]){
+            for (let ship of [this.ship1, this.ship2, this.ship3]) {
+                if (this.checkCollision(rocket, ship)) {
+                    rocket.reset();
+                    this.shipExplode(ship, rocket);
+                }
+            }
         }
-        if (this.checkCollision(this.p1Rocket, this.ship2)) {
-            this.p1Rocket.reset();
-            this.shipExplode(this.ship2);
-        }
-        if (this.checkCollision(this.p1Rocket, this.ship1)) {
-            this.p1Rocket.reset();
-            this.shipExplode(this.ship1);
-        }
+        
     }
 
     checkCollision(rocket, ship) {
@@ -132,7 +129,7 @@ class Play extends Phaser.Scene {
         }
     }
 
-    shipExplode(ship) {
+    shipExplode(ship, rocket) {
         // hide ship temporarily
         ship.alpha = 0;
 
@@ -143,8 +140,9 @@ class Play extends Phaser.Scene {
             ship.alpha = 1;
             boom.destroy();
         });
-        this.p1Score += ship.points;
-        this.scoreLeft.text = this.p1Score;
+        rocket.points += ship.points;
+        this.scoreLeft.text = this.p1Rocket.points;
+        this.scoreRight.text = this.p2Rocket.points;
         this.sound.play('sfx_explosion');
     }
 
