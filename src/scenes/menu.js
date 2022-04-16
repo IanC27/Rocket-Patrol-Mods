@@ -9,6 +9,7 @@ class Menu extends Phaser.Scene {
         this.load.audio('sfx_explosion', 'assets/explosion38.wav');
         this.load.audio('sfx_rocket', 'assets/rocket_shot.wav');
         //laserattack.wav by VABsounds at https://freesound.org/people/VABsounds/sounds/443865/
+        this.load.audio('bg_music', 'assets/laserattack.wav');
     }
 
     create() {

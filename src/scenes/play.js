@@ -32,9 +32,6 @@ class Play extends Phaser.Scene {
         this.add.rectangle(game.config.width - borderUISize, 0,
             borderUISize, game.config.height, 0xffffff).setOrigin(0, 0);
 
-
-
-
         // controls setup
         p1Controls.keyFire = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         p1Controls.keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
@@ -111,6 +108,18 @@ class Play extends Phaser.Scene {
 
         this.gameOver = false;
 
+        // music
+        let musicConfig = {
+            mute: false,
+            volume: 1,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: true,
+            delay: 0
+        }
+        this.bgMusic = this.sound.add('bg_music', musicConfig);
+
         // 60-sec play clock
         scoreConfig.fixedWidth = 0;
         this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
@@ -120,13 +129,17 @@ class Play extends Phaser.Scene {
             this.gameOver = true;
         }, null, this);
 
+        this.bgMusic.play();
+
     }
 
     update() {
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
+            this.bgMusic.stop();
             this.scene.restart();
         }
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(p1Controls.keyLeft)) {
+            this.bgMusic.stop();
             this.scene.start("menu");
         }
 
