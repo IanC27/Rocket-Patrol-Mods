@@ -62,6 +62,10 @@ class Play extends Phaser.Scene {
             fixedWidth: 100
         }
 
+        // high score text
+        this.highScoreText = this.add.text(game.config.width / 2, borderUISize + borderPadding * 2,
+         highScore, scoreConfig).setOrigin(0.5, 0);
+
         // 1st rocket setup
         this.p1Rocket = new Rocket(this, game.config.width / 2, game.config.height - borderUISize - borderPadding - 4,
             'rocket', p1Controls).setOrigin(0.5, 0);
@@ -85,10 +89,12 @@ class Play extends Phaser.Scene {
             this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding * 2,
                 this.p2Rocket.points, scoreConfig);
             this.p2Rocket.scoreText = this.scoreLeft;
-            scoreConfig.backgroundColor = '#F3B141';
-            scoreConfig.color = '#843605';
-
         }
+        // scoreconfig back to default
+        scoreConfig.backgroundColor = '#F3B141';
+        scoreConfig.color = '#843605';
+
+        
 
         // ships
         this.ship1 = new Ship(this, game.config.width + borderUISize * 6, borderUISize * 4,
@@ -165,6 +171,11 @@ class Play extends Phaser.Scene {
         rocket.points += ship.points;
         rocket.scoreText.text = rocket.points;
         this.sound.play('sfx_explosion');
+
+        if (rocket.points > highScore) {
+            highScore = rocket.points;
+            this.highScoreText.text = highScore;
+        }
     }
 
 }

@@ -22,6 +22,6 @@ let game = new Phaser.Game(config);
 /*
 mods:
 -- Implement a simultaneous two-player mode (30)
---
+-- Track a high score that persists across scenes and display it in the UI (5)
 
 */
