@@ -8,15 +8,20 @@ class Play extends Phaser.Scene {
         this.load.image('rocket2', 'assets/rocketP2.png')
         this.load.image('spaceship', 'assets/spaceship.png');
         this.load.image('starfield', 'assets/starfield.png');
+        this.load.image('starfield_back', 'assets/starfield_3.png');
+        this.load.image('starfield_mid', 'assets/starfield_2.png');
+        this.load.image('starfield_front', 'assets/starfield_1.png');
         this.load.spritesheet('explosion', 'assets/explosion.png', { frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9 })
     }
 
     create() {
 
         // draw scene background and UI
-        this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
+        this.starfieldBack = this.add.tileSprite(0, 0, 640, 480, 'starfield_back').setOrigin(0, 0);
+        this.starfieldMid = this.add.tileSprite(0, 0, 640, 480, 'starfield_mid').setOrigin(0, 0);
+        this.starfieldFront = this.add.tileSprite(0, 0, 640, 480, 'starfield_front').setOrigin(0, 0);
+
         this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
-        //this.add.text(20, 20, "Welcome to the game")
         // white borders
         this.add.rectangle(0, 0, game.config.width, borderUISize,
             0xFFFFFF).setOrigin(0, 0);
@@ -126,7 +131,11 @@ class Play extends Phaser.Scene {
         }
 
         if (!this.gameOver) {
-            this.starfield.tilePositionX -= 4;
+            // parallax bg
+            this.starfieldBack.tilePositionX -= 1;
+            this.starfieldMid.tilePositionX -= 2;
+            this.starfieldFront.tilePositionX -= 4;
+
             for (let rocket of this.rocketsList){
                 rocket.update()
             }
