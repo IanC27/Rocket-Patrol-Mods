@@ -11,26 +11,12 @@ class Play extends Phaser.Scene {
         this.load.image('starfield_back', 'assets/starfield_3.png');
         this.load.image('starfield_mid', 'assets/starfield_2.png');
         this.load.image('starfield_front', 'assets/starfield_1.png');
-        this.load.spritesheet('explosion', 'assets/explosion.png', { frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9 })
+        this.load.spritesheet('explosion', 'assets/explosion.png', { frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9 });
+        this.load.image('speedy', 'assets/speedy.png');
     }
 
     create() {
 
-        // draw scene background and UI
-        this.starfieldBack = this.add.tileSprite(0, 0, 640, 480, 'starfield_back').setOrigin(0, 0);
-        this.starfieldMid = this.add.tileSprite(0, 0, 640, 480, 'starfield_mid').setOrigin(0, 0);
-        this.starfieldFront = this.add.tileSprite(0, 0, 640, 480, 'starfield_front').setOrigin(0, 0);
-
-        this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
-        // white borders
-        this.add.rectangle(0, 0, game.config.width, borderUISize,
-            0xFFFFFF).setOrigin(0, 0);
-        this.add.rectangle(0, game.config.height - borderUISize,
-            game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
-        this.add.rectangle(0, 0, borderUISize, game.config.height,
-            0xffffff).setOrigin(0, 0);
-        this.add.rectangle(game.config.width - borderUISize, 0,
-            borderUISize, game.config.height, 0xffffff).setOrigin(0, 0);
 
         // controls setup
         p1Controls.keyFire = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
@@ -49,6 +35,41 @@ class Play extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('explosion', { start: 0, end: 9, first: 0 }),
             frameRate: 30
         });
+        
+        // draw scene background and UI
+        this.starfieldBack = this.add.tileSprite(0, 0, 640, 480, 'starfield_back').setOrigin(0, 0);
+        this.starfieldMid = this.add.tileSprite(0, 0, 640, 480, 'starfield_mid').setOrigin(0, 0);
+        this.starfieldFront = this.add.tileSprite(0, 0, 640, 480, 'starfield_front').setOrigin(0, 0);
+
+        // ships
+        this.speedyShip = new Ship(this, game.config.width, borderUISize * 4,
+            'speedy', 0, 50, 1.75).setOrigin(0, 0);
+       this.ship1 = new Ship(this, game.config.width + borderUISize * 2, borderUISize * 5 + borderPadding,
+           'spaceship', 0, 30).setOrigin(0, 0);
+       this.ship2 = new Ship(this, game.config.width + borderUISize * 4, borderUISize * 6 + borderPadding * 2,
+           'spaceship', 0, 20).setOrigin(0, 0);
+       this.ship3 = new Ship(this, game.config.width + borderUISize * 6, borderUISize * 7 + borderPadding * 3,
+           'spaceship', 0, 10).setOrigin(0, 0);
+       
+       this.shipsList = [this.ship1, this.ship2, this.ship3, this.speedyShip];
+
+       this.gameOver = false;
+
+
+       
+        // white borders
+        this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
+      
+        this.add.rectangle(0, 0, game.config.width, borderUISize,
+            0xFFFFFF).setOrigin(0, 0);
+        this.add.rectangle(0, game.config.height - borderUISize,
+            game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
+        this.add.rectangle(0, 0, borderUISize, game.config.height,
+            0xffffff).setOrigin(0, 0);
+        this.add.rectangle(game.config.width - borderUISize, 0,
+            borderUISize, game.config.height, 0xffffff).setOrigin(0, 0);
+
+        
 
         // display score
         let scoreConfig = {
@@ -98,16 +119,7 @@ class Play extends Phaser.Scene {
 
         
 
-        // ships
-        this.ship1 = new Ship(this, game.config.width + borderUISize * 6, borderUISize * 4,
-            'spaceship', 0, 30).setOrigin(0, 0);
-        this.ship2 = new Ship(this, game.config.width + borderUISize * 3, borderUISize * 5 + borderPadding * 2,
-            'spaceship', 0, 20).setOrigin(0, 0);
-        this.ship3 = new Ship(this, game.config.width, borderUISize * 6 + borderPadding * 4,
-            'spaceship', 0, 10).setOrigin(0, 0);
-
-        this.gameOver = false;
-
+        
         // music
         let musicConfig = {
             mute: false,
@@ -150,15 +162,15 @@ class Play extends Phaser.Scene {
             this.starfieldFront.tilePositionX -= 4;
 
             for (let rocket of this.rocketsList){
-                rocket.update()
+                rocket.update();
             }
-            this.ship1.update();
-            this.ship2.update();
-            this.ship3.update();
+            for (let ship of this.shipsList){
+                ship.update();
+            }
         }
 
         for (let rocket of this.rocketsList) {
-            for (let ship of [this.ship1, this.ship2, this.ship3]) {
+            for (let ship of this.shipsList) {
                 if (this.checkCollision(rocket, ship)) {
                     rocket.reset();
                     this.shipExplode(ship, rocket);
