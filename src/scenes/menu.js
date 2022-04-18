@@ -4,10 +4,10 @@ class Menu extends Phaser.Scene {
         super("menu");
     }
 
-    preload(){
+    preload() {
         this.load.audio('sfx_select', 'assets/blip_select12.wav');
         this.load.audio('sfx_explosion', 'assets/explosion38.wav');
-        // new explosion sfx made in Bfxr: 
+        // new explosion sfx made using Bfxr: https://www.bfxr.net/ 
         this.load.audio('sfx_explosion2', 'assets/explosion2.wav');
         this.load.audio('sfx_explosion3', 'assets/explosion3.wav');
         this.load.audio('sfx_explosion4', 'assets/explosion4.wav');
@@ -32,33 +32,32 @@ class Menu extends Phaser.Scene {
         }
 
         //menu text
-        this.add.text(game.config.width/2, game.config.height/2 - borderUISize*2 - borderPadding*2, 
-        'ROCKET PATROL', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width / 2, game.config.height / 2 - borderUISize * 2 - borderPadding * 2,
+            'ROCKET PATROL', menuConfig).setOrigin(0.5);
         menuConfig.backgroundColor = "#FF0000";
         menuConfig.color = "#000";
-        this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding, 
-        'P1: ← → arrows to move & ↑ to fire', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width / 2, game.config.height / 2 - borderUISize - borderPadding,
+            'P1: ← → arrows to move & ↑ to fire', menuConfig).setOrigin(0.5);
         menuConfig.backgroundColor = "#0000FF";
         menuConfig.color = "#00FF00"
-        this.p2ControlsText = this.add.text(game.config.width/2, game.config.height/2, 
-        '', menuConfig).setOrigin(0.5);
+        this.p2ControlsText = this.add.text(game.config.width / 2, game.config.height / 2,
+            '', menuConfig).setOrigin(0.5);
         menuConfig.backgroundColor = "#00FF00"
         menuConfig.color = "#000";
-        this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 
-        'Press M to toggle multiplayer mode', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width / 2, game.config.height / 2 + borderUISize + borderPadding,
+            'Press M to toggle multiplayer mode', menuConfig).setOrigin(0.5);
 
-    
-        this.add.text(game.config.width/2, game.config.height/2 + borderUISize*2 + borderPadding*2, 
-        'Press ← for Novice or → for Expert', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width / 2, game.config.height / 2 + borderUISize * 2 + borderPadding * 2,
+            'Press ← for Novice or → for Expert', menuConfig).setOrigin(0.5);
 
-        this.playerCountText = this.add.text(game.config.width/2, game.config.height/2 + borderUISize*3 + borderPadding*3, 
-        '1 Player Mode', menuConfig).setOrigin(0.5);
+        this.playerCountText = this.add.text(game.config.width / 2, game.config.height / 2 + borderUISize * 3 + borderPadding * 3,
+            '1 Player Mode', menuConfig).setOrigin(0.5);
         this.twoPlayers = false;
 
         keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         keyM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
-        
+
     }
 
     update() {
@@ -75,6 +74,7 @@ class Menu extends Phaser.Scene {
             }
             this.sound.play('sfx_select');
         }
+
         if (Phaser.Input.Keyboard.JustDown(keyLeft)) {
             // ez mode
             game.settings = {
@@ -82,11 +82,12 @@ class Menu extends Phaser.Scene {
                 gameTimer: 60000,
                 multiplayer: this.twoPlayers,
                 difficulty: 0
-                
+
             }
             this.sound.play('sfx_select');
             this.scene.start('play');
         }
+
         if (Phaser.Input.Keyboard.JustDown(keyRight)) {
             // hard mode
             game.settings = {
@@ -99,5 +100,4 @@ class Menu extends Phaser.Scene {
             this.scene.start('play');
         }
     }
-
 }

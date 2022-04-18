@@ -16,8 +16,6 @@ class Play extends Phaser.Scene {
     }
 
     create() {
-
-
         // controls setup
         p1Controls.keyFire = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         p1Controls.keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
@@ -64,8 +62,6 @@ class Play extends Phaser.Scene {
 
         this.gameOver = false;
 
-
-
         // white borders
         this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
         this.add.rectangle(0, 0, game.config.width, borderUISize,
@@ -76,8 +72,6 @@ class Play extends Phaser.Scene {
             0xffffff).setOrigin(0, 0);
         this.add.rectangle(game.config.width - borderUISize, 0,
             borderUISize, game.config.height, 0xffffff).setOrigin(0, 0);
-
-
 
         // display score
         let scoreConfig = {
@@ -121,7 +115,6 @@ class Play extends Phaser.Scene {
                 this.p2Rocket.points, scoreConfig);
             this.p2Rocket.scoreText = this.scoreLeft;
         }
-        
 
         // music
         let musicConfig = {
@@ -141,10 +134,9 @@ class Play extends Phaser.Scene {
         scoreConfig.fontSize = '32px';
         scoreConfig.strokeThickness = 1
 
-        this.timerText = this.add.text(game.config.width - borderUISize - borderPadding, game.config.height - borderUISize, 
+        this.timerText = this.add.text(game.config.width - borderUISize - borderPadding, game.config.height - borderUISize,
             game.settings.gameTimer, scoreConfig).setOrigin(1, 1);
-        
-        //console.log(this.lastTime);
+
 
         // scoreconfig back to default
         scoreConfig.backgroundColor = '#F3B141';
@@ -204,11 +196,6 @@ class Play extends Phaser.Scene {
                 }
             }
         }
-
-
-        
-
-
     }
 
     checkCollision(rocket, ship) {
@@ -243,5 +230,4 @@ class Play extends Phaser.Scene {
             this.highScoreText.text = highScores[game.settings.difficulty];
         }
     }
-
 }
