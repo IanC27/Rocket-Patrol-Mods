@@ -29,5 +29,6 @@ mods:
 -- Create a new scrolling tile sprite for the background (5) 
 (I made a new one the first time and then multiple new ones for the parallax scrolling background)
 -- Create a new spaceship type (w/ new artwork) that's smaller, moves faster, and is worth more points (20)
--- 
+-- andomize each spaceship's movement direction at the start of each play (5)
+
 */

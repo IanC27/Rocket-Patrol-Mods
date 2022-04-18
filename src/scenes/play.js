@@ -35,7 +35,7 @@ class Play extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('explosion', { start: 0, end: 9, first: 0 }),
             frameRate: 30
         });
-        
+
         // draw scene background and UI
         this.starfieldBack = this.add.tileSprite(0, 0, 640, 480, 'starfield_back').setOrigin(0, 0);
         this.starfieldMid = this.add.tileSprite(0, 0, 640, 480, 'starfield_mid').setOrigin(0, 0);
@@ -45,30 +45,29 @@ class Play extends Phaser.Scene {
         // randomize direction: 1 for left, -1 for right
         this.speedyShip = new Ship(this, game.config.width, borderUISize * 4,
             'speedy', 0, 50, 1.75).setOrigin(0, 0);
-       this.ship1 = new Ship(this, game.config.width - borderUISize * 2, borderUISize * 5 + borderPadding,
-           'spaceship', 0, 30).setOrigin(0, 0);
-       this.ship2 = new Ship(this, game.config.width - borderUISize * 4, borderUISize * 6 + borderPadding * 2,
-           'spaceship', 0, 20).setOrigin(0, 0);
-       this.ship3 = new Ship(this, game.config.width - borderUISize * 6, borderUISize * 7 + borderPadding * 3,
-           'spaceship', 0, 10).setOrigin(0, 0);
-       
-       this.shipsList = [this.ship1, this.ship2, this.ship3, this.speedyShip];
+        this.ship1 = new Ship(this, game.config.width - borderUISize * 2, borderUISize * 5 + borderPadding,
+            'spaceship', 0, 30).setOrigin(0, 0);
+        this.ship2 = new Ship(this, game.config.width - borderUISize * 4, borderUISize * 6 + borderPadding * 2,
+            'spaceship', 0, 20).setOrigin(0, 0);
+        this.ship3 = new Ship(this, game.config.width - borderUISize * 6, borderUISize * 7 + borderPadding * 3,
+            'spaceship', 0, 10).setOrigin(0, 0);
 
-       // randomize the directions of each ship
-       for (let i = 0; i < this.shipsList.length; i++) {
-        if (Math.random() >= 0.5) {
-            this.shipsList[i].movementSpeed *= -1
-            this.shipsList[i].flipX = true;
+        this.shipsList = [this.ship1, this.ship2, this.ship3, this.speedyShip];
+
+        // randomize the directions of each ship
+        for (let i = 0; i < this.shipsList.length; i++) {
+            if (Math.random() >= 0.5) {
+                this.shipsList[i].movementSpeed *= -1
+                this.shipsList[i].flipX = true;
+            }
         }
-       }
 
-       this.gameOver = false;
+        this.gameOver = false;
 
 
-       
+
         // white borders
         this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
-      
         this.add.rectangle(0, 0, game.config.width, borderUISize,
             0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(0, game.config.height - borderUISize,
@@ -78,7 +77,7 @@ class Play extends Phaser.Scene {
         this.add.rectangle(game.config.width - borderUISize, 0,
             borderUISize, game.config.height, 0xffffff).setOrigin(0, 0);
 
-        
+
 
         // display score
         let scoreConfig = {
@@ -96,9 +95,9 @@ class Play extends Phaser.Scene {
 
         // TODO: fix high score so that each difficulty has a different one
         // high score text
-        
+
         this.highScoreText = this.add.text(game.config.width / 2, borderUISize + borderPadding * 2,
-         highScores[game.settings.difficulty], scoreConfig).setOrigin(0.5, 0);
+            highScores[game.settings.difficulty], scoreConfig).setOrigin(0.5, 0);
 
         // 1st rocket setup
         this.p1Rocket = new Rocket(this, game.config.width / 2, game.config.height - borderUISize - borderPadding - 4,
@@ -128,9 +127,9 @@ class Play extends Phaser.Scene {
         scoreConfig.backgroundColor = '#F3B141';
         scoreConfig.color = '#843605';
 
-        
 
-        
+
+
         // music
         let musicConfig = {
             mute: false,
@@ -172,10 +171,10 @@ class Play extends Phaser.Scene {
             this.starfieldMid.tilePositionX -= 2;
             this.starfieldFront.tilePositionX -= 4;
 
-            for (let rocket of this.rocketsList){
+            for (let rocket of this.rocketsList) {
                 rocket.update();
             }
-            for (let ship of this.shipsList){
+            for (let ship of this.shipsList) {
                 ship.update();
             }
         }
@@ -215,7 +214,8 @@ class Play extends Phaser.Scene {
         });
         rocket.points += ship.points;
         rocket.scoreText.text = rocket.points;
-        this.sound.play('sfx_explosion');
+        let sounds = ['sfx_explosion2', 'sfx_explosion3', 'sfx_explosion4', 'sfx_explosion5'];
+        this.sound.play(sounds[Math.floor(Math.random() * sounds.length)]);
 
         if (rocket.points > highScores[game.settings.difficulty]) {
             highScores[game.settings.difficulty] = rocket.points;
