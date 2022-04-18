@@ -93,9 +93,7 @@ class Play extends Phaser.Scene {
             fixedWidth: 100
         }
 
-        // TODO: fix high score so that each difficulty has a different one
         // high score text
-
         this.highScoreText = this.add.text(game.config.width / 2, borderUISize + borderPadding * 2,
             highScores[game.settings.difficulty], scoreConfig).setOrigin(0.5, 0);
 
@@ -123,12 +121,7 @@ class Play extends Phaser.Scene {
                 this.p2Rocket.points, scoreConfig);
             this.p2Rocket.scoreText = this.scoreLeft;
         }
-        // scoreconfig back to default
-        scoreConfig.backgroundColor = '#F3B141';
-        scoreConfig.color = '#843605';
-
-
-
+        
 
         // music
         let musicConfig = {
@@ -143,7 +136,22 @@ class Play extends Phaser.Scene {
         this.bgMusic = this.sound.add('bg_music', musicConfig);
 
         // 60-sec play clock
+        delete scoreConfig.backgroundColor
+        scoreConfig.color = '#FFFFFF';
+        scoreConfig.fontSize = '32px';
+        scoreConfig.strokeThickness = 1
+
+        this.timerText = this.add.text(game.config.width - borderUISize - borderPadding, game.config.height - borderUISize, 
+            game.settings.gameTimer, scoreConfig).setOrigin(1, 1);
+        
+        //console.log(this.lastTime);
+
+        // scoreconfig back to default
+        scoreConfig.backgroundColor = '#F3B141';
+        scoreConfig.color = '#843605';
         scoreConfig.fixedWidth = 0;
+        scoreConfig.strokeThickness = 0;
+        scoreConfig.fontSize = '28px';
         this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
             this.add.text(game.config.width / 2, game.config.height / 2, 'GAME OVER', scoreConfig).setOrigin(0.5);
             this.add.text(game.config.width / 2, game.config.height / 2 + 64, 'Press (R) to Restart or ← for Menu',
@@ -152,10 +160,19 @@ class Play extends Phaser.Scene {
         }, null, this);
 
         this.bgMusic.play();
-
+        this.timeLeft = game.settings.gameTimer;
+        this.lastTime = this.time.now;
     }
 
-    update() {
+    update(time) {
+
+        // update timer & text every 30ms
+        if (!this.gameOver && time - this.lastTime > 30) {
+            this.timeLeft -= (time - this.lastTime);
+            this.timerText.text = Math.floor(this.timeLeft * 0.001);
+            this.lastTime = time;
+        }
+
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
             this.bgMusic.stop();
             this.scene.restart();
@@ -187,6 +204,10 @@ class Play extends Phaser.Scene {
                 }
             }
         }
+
+
+        
+
 
     }
 
