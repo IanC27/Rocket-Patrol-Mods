@@ -42,16 +42,25 @@ class Play extends Phaser.Scene {
         this.starfieldFront = this.add.tileSprite(0, 0, 640, 480, 'starfield_front').setOrigin(0, 0);
 
         // ships
+        // randomize direction: 1 for left, -1 for right
         this.speedyShip = new Ship(this, game.config.width, borderUISize * 4,
             'speedy', 0, 50, 1.75).setOrigin(0, 0);
-       this.ship1 = new Ship(this, game.config.width + borderUISize * 2, borderUISize * 5 + borderPadding,
+       this.ship1 = new Ship(this, game.config.width - borderUISize * 2, borderUISize * 5 + borderPadding,
            'spaceship', 0, 30).setOrigin(0, 0);
-       this.ship2 = new Ship(this, game.config.width + borderUISize * 4, borderUISize * 6 + borderPadding * 2,
+       this.ship2 = new Ship(this, game.config.width - borderUISize * 4, borderUISize * 6 + borderPadding * 2,
            'spaceship', 0, 20).setOrigin(0, 0);
-       this.ship3 = new Ship(this, game.config.width + borderUISize * 6, borderUISize * 7 + borderPadding * 3,
+       this.ship3 = new Ship(this, game.config.width - borderUISize * 6, borderUISize * 7 + borderPadding * 3,
            'spaceship', 0, 10).setOrigin(0, 0);
        
        this.shipsList = [this.ship1, this.ship2, this.ship3, this.speedyShip];
+
+       // randomize the directions of each ship
+       for (let i = 0; i < this.shipsList.length; i++) {
+        if (Math.random() >= 0.5) {
+            this.shipsList[i].movementSpeed *= -1
+            this.shipsList[i].flipX = true;
+        }
+       }
 
        this.gameOver = false;
 
