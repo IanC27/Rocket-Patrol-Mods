@@ -75,7 +75,9 @@ class Menu extends Phaser.Scene {
             game.settings = {
                 spaceshipSpeed: 3,
                 gameTimer: 60000,
-                multiplayer: this.twoPlayers
+                multiplayer: this.twoPlayers,
+                difficulty: 0
+                
             }
             this.sound.play('sfx_select');
             this.scene.start('play');
@@ -85,7 +87,8 @@ class Menu extends Phaser.Scene {
             game.settings = {
                 spaceshipSpeed: 4,
                 gameTimer: 45000,
-                multiplayer: this.twoPlayers
+                multiplayer: this.twoPlayers,
+                difficulty: 1
             }
             this.sound.play('sfx_select');
             this.scene.start('play');

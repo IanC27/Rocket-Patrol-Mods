@@ -15,7 +15,7 @@ let borderPadding = borderUISize / 3;
 let keyF, keyR, keyLeft, keyRight, keyM;
 let p1Controls = {};
 let p2Controls = {};
-let highScore = 0;
+let highScores = [0, 0];
 
 let game = new Phaser.Game(config);
 
@@ -28,5 +28,5 @@ mods:
 -- Add your own (copyright-free) background music to the Play scene (5)
 -- Create a new scrolling tile sprite for the background (5) 
 (I made a new one the first time and then multiple new ones for the parallax scrolling background)
--- 
+-- Create a new spaceship type (w/ new artwork) that's smaller, moves faster, and is worth more points (20)
 */

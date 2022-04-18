@@ -85,9 +85,11 @@ class Play extends Phaser.Scene {
             fixedWidth: 100
         }
 
+        // TODO: fix high score so that each difficulty has a different one
         // high score text
+        
         this.highScoreText = this.add.text(game.config.width / 2, borderUISize + borderPadding * 2,
-         highScore, scoreConfig).setOrigin(0.5, 0);
+         highScores[game.settings.difficulty], scoreConfig).setOrigin(0.5, 0);
 
         // 1st rocket setup
         this.p1Rocket = new Rocket(this, game.config.width / 2, game.config.height - borderUISize - borderPadding - 4,
@@ -206,9 +208,9 @@ class Play extends Phaser.Scene {
         rocket.scoreText.text = rocket.points;
         this.sound.play('sfx_explosion');
 
-        if (rocket.points > highScore) {
-            highScore = rocket.points;
-            this.highScoreText.text = highScore;
+        if (rocket.points > highScores[game.settings.difficulty]) {
+            highScores[game.settings.difficulty] = rocket.points;
+            this.highScoreText.text = highScores[game.settings.difficulty];
         }
     }
 
