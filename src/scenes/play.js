@@ -94,7 +94,7 @@ class Play extends Phaser.Scene {
         // 1st rocket setup
         this.p1Rocket = new Rocket(this, game.config.width / 2, game.config.height - borderUISize - borderPadding - 4,
             'rocket', p1Controls).setOrigin(0.5, 0);
-        scoreConfig.backgroundColor = "#FF0000";
+        scoreConfig.backgroundColor = "#FACADE";
         scoreConfig.color = "#000";
         this.scoreRight = this.add.text(game.config.width - borderUISize - borderPadding - scoreConfig.fixedWidth,
             borderUISize + borderPadding * 2, this.p1Rocket.points, scoreConfig);
